@@ -1,0 +1,199 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[nottoc]{tocbibind}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.9in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-3cm}
+\setlength{\parskip}{0.5\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\pagestyle{empty}
+\newcommand{\e}{\mathrm{e}}
+
+\title{Analyzing Period of a Pendulum in relation to Angle and Determining Quality (Q) Factor}
+\author{Victor Hau}
+\date{November 2022}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+The experiments conducted in this report aim to examine the relationship between varying starting conditions and how a simple pendulum oscillates in comparison to available mathematical models. Four different potential relationships were tested and analyzed: period as a function of angle, quality factor (Q factor), period as a function of string length, and Q factor found from variable length. The period was found to be independent of the start angle, as the fit power series in Figure \ref{fig:2} was consistent with
+\begin{equation}\label{eq:1}
+    y = mx + b
+\end{equation}
+where m (slope) is zero \cite{linear}. The found values of the power series 
+\begin{equation}\label{eq:2}
+    \sum_{n=0}^\infty c_nx^n = c_0 +c_1x + c_2x^2 +...,
+\end{equation}
+for values besides the constant were consistent with zero \cite{strangherman}, and the pendulum's trend line is symmetric to validate this report's results. As an extension of the period calculations, the Q factor was found to be 210 $\pm{3}$ from the theoretical equation 
+\begin{equation} \label{eq:3}
+    Q = 2\pi\frac{\tau}{T}
+\end{equation}
+where $\tau$ is the time constant of decay \cite{lepeshkin}. The theoretical outcome is a cosine wave, which tracks the bob's non-decaying position (through $\theta$) relative to time (s).
+\begin{equation}\label{eq:4}
+    x(t) = A_0e^{-\frac{t}{2\tau}}\cos{({\frac{2\pi}{T}t+\phi_0})}
+\end{equation}
+where $A_0$ is initial amplitude, $\tau$ is tau, t is time, $\phi$ is the phase constant, and $\omega$ is frequency \cite{anchordoqui}. The Python-code used to fit trend lines outputs: $A_0$, $\tau$, T, and $\phi$, where $\tau$ is used in the Q factor calculation (Equation \ref{eq:3}). Q was also estimated to be 215 $\pm{4}$ through a summation of the oscillations until amplitude is a factor of its original \cite{xue}. 
+\begin{equation}\label{eq:5}
+A = A_0(e^{\frac{-\pi}{n}})
+\end{equation}
+where A is the decayed amplitude, $A_0$ is the initial amplitude, and n is chosen \cite{xue}. The number of oscillations up until $A \cdot n$ is an estimate of the Q factor. The significance of Q factor on the pendulum's motion is discussed later in this report. Additionally, period was measured again, but as a function of string length with the predicted model set by Christiaan Huygens's law for the period. \cite{huygens1957sive}.
+\begin{equation}\label{eq:6}
+    T(L) = 2 \sqrt{L}
+\end{equation}
+The experimental findings suggest the model is partially correct, as the observed trend line follows a power function to the same leading term, but with exponent 0.45 (\ref{eq:9}). Lastly, Q factor was calculated at different lengths, with a prediction leading to a rational root function relation (assuming $\tau$ constant). This was found to be untrue, as Q factor increased across pendulum length, until plateauing and decreasing close to the initial Q factor. The difference between the theoretical and experimental models may be explained by air resistance, and friction at the focal point of the pendulum, whereas the pendulum increases in length, greater velocity is achieved while air resistance increases the viscosity of the pendulum, lowering the number of oscillations. This is explained further in section \textbf{3}. 
+
+\section{Method and Procedure} %• This methods section is supposed to help someone reproduce your results by using the same experimental setup and measurement methods.
+A pendulum was created using a solid aluminum stand a rubber ball (0.175kg), and yarn. The experiment was carried out by knotting the yarn through the aluminum stand, and tying the rubber ball to serve as a bob on the other end \cite{canadiantire}. The string length was initially chosen as 0.60m (for 2.1\emph{iii)}. Since the rubber ball used is a solid mass, the risk of an elliptical motion is mitigated.  Additionally, a negligible amount of tape secures the yarn to the mass, in order to improve pendulum durability. A protractor was taped behind the pendulum, to the vertical surface, in order to give an estimate of the angle of swing.
+
+An aluminum stand was used due to its weight and density, providing a fixed point for the pendulum. However, as seen in Figure \ref{fig:1}, the pendulum was also weighed down using additional masses (textbook and bottles), to ensure stability. To reduce the chances of the pendulum oscillating elliptically, a line was marked using the notebook seen in Figure \ref{fig:1}, to improve the repeatability and accuracy of a planar motion by the pendulum (back and forth).
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.20\textwidth]{labsetup.png}
+    \caption{Pendulum Setup. A pendulum was built using an aluminum stand, yarn, and a solid rubber ball. The ball was additionally taped to the string to secure it, with additional weight on the stand. Pictured at the bottom is a notebook that has been lined up to the planar motion of the pendulum.}
+    \label{fig:1}
+\end{figure}
+\subsection{Experimental Setup}
+\textbf{i) Recording Period vs Angle}\\
+In the first experiment, the ball is brought up to a starting angle of $\frac{4\pi}{9}$ and recorded in 30 frames per second at 4K resolution, to be played back frame by frame in order to determine the period of the pendulum, also known as the time to complete one full oscillation. The counting period starts at release when the taut string falls, and ends when the mass reaches the apex again on the same side. The usage of the string's position and tension as an indicator of when the pendulum starts swinging provides less uncertainty, as the mass may be blocked by the experimenter's hand, creating ambiguity on the starting time. Note the positive direction of angle was arbitrarily chosen as towards the right of the video $(\rightarrow)$, meaning the measurements started at $\frac{4\pi}{9}$ and decreased by $\frac{\pi}{18}$ until reaching -$\frac{4\pi}{9}$, excluding equilibrium.
+
+If asymmetry is detected qualitatively, it should be adjusted before continuing. The protractor in the background is used as a reference (Figure 1), and recordings are reviewed using Tracker, a video analysis and modelling tool, with a digital protractor directly on the fixed point \cite{tracker}.
+
+After adding uncertainty calculations for both the angle measurement and the period recording, a Python-generated graph analyzes the relation between the two variables. The graph can be fit to a power series where $c_0$ is period \cite{strangherman}. It should be independent of angle.
+
+\textbf{ii) Determining Quality (Q) Factor}\\
+After recording the period as a function of angle, the pendulum is recorded at 30 frames per second, at 4K resolution, in order to track the mass's position. Firstly, the initial angle is chosen at approximately $\frac{\pi}{6}$, as a smaller angle reduces any residual value for $c_1$ or $c_2$ in (1) if those values are not consistent with zero. The pendulum should be allowed to swing untouched, until it is viewed as sufficiently Tracker allows the re-watching and identification of a more accurate reading of the angle, so the initial experimental angle does not matter as much.
+
+Tracker reduces the uncertainty of time and angle measurements, as a better method than hand measurements due to smaller time intervals and more precise angle readings. The data collected by Tracker is used to create a dampening sinusoidal wave, with exponential decay.
+
+\textbf{iii) Recording Period vs String Length}\\
+To inspect a potential relation between string length and period, string length is decreased by 0.05m until a length of 0.1m. The pendulum length is adjusted based on markers every 0.05m on the string in Figure \ref{fig:1} (not visible). To adjust the length, the excess string is tied around the bib and taped. While the added string theoretically adds mass to the bob, the used cotton yarn's mass is negligible \cite{handwoven14}. \\
+
+As opposed to \emph{i)}, the initial angle is kept constant ($\frac{\pi}{18}$ ($\pm{0.009}$)). Measuring the period from initial amplitude is easier than at rest because it is clearer to tell on recording when the bob has reached its peak. The period for each string length is measured in the same manner as \emph{i)}, and the theoretical Huygens's law of period can be transformed into a power function. 
+\begin{equation}\label{eq:7}
+    T(L) = 2L^{0.5}
+\end{equation}
+\textbf{iv) Q Factor in Relation to Length}\\
+Recording each pendulum length's Q factor follows the same process as \emph{ii)}. The number of oscillations and amplitude decay is recorded, with a constant starting angle for each length of $\frac{\pi}{18}$ ($\pm{0.009}$). The initial angle was chosen to be small in order to ensure that $c_1$ and $c_2$ remain consistent with zero from Equation \ref{eq:2}.\ Counting the oscillations until a certain decay percentage is used. While this method allows uncertainties discussed in \textbf{4.1}, it is more practical as opposed to using Tracker to trace 11 different pendulums where the required video storage for all the data was unachievable with the used recording device (iPhone 7). The expected outcome of the Q factor graph is unknown  with different lengths, as there are essentially 11 different pendulums. However, if $\tau$ is assumed to remain constant, Q factor is related to L by period:
+\begin{equation} \label{eq:8}
+    Q = 2\pi\frac{\tau}{2\sqrt{L}}
+\end{equation}
+
+\section{Results}
+\subsection{Period}
+ The period was recorded over the angle interval from -$\frac{4\pi}{9}$to $\frac{4\pi}{9}$, where the average period length was calculated to be 1.42 {($\pm{0.0005}$)}  seconds, with a range of 0.27 seconds, from the minimum period measurement (1.30 seconds) to the maximum (1.57 seconds). The angle signs were chosen arbitrarily, where the right of the equilibrium position was positive. The angles $\pm{\frac{\pi}{2}}$ were excluded due to uncertainties surrounding angle measurement and external issues such as the stand moving during oscillations.
+
+\subsection {Analysis of Period and Angle}
+\begin{figure} [hbt!]
+    \centering
+    \includegraphics[width=0.65\textwidth]{periodvsangle.png}
+    \caption{{Period as a Function of Pendulum Swing Angle ($\theta$). the recorded angles are marked by dots, with error bars of {$\pm0.0005$} vertically and {$\pm 0.009$} horizontally, with respect to period and angle. Note that due to the small magnitude of the errors, they may not appear as clearly. A linear pattern was predicted, however the figure showcases a quadratic curve $y = 1.32 + 0.00126x + 0.134x^2$}
+    \label{fig:2}}
+\end{figure}
+The pendulum's predicted behaviour was that period is independent of release angle. As shown in Figure 2, the trend line by fitting to the power series Equation (1), gets $c_1$ = 1.26 $\cdot 10^{-3}$ {$\pm\ 0.007$}, $c_0$ = 1.32 {$\pm0.008$}, and $c_2$ = 0.134 {$\pm0.008$}. $c_0$'s value indicates the line's slope is consistent with zero and the pendulum is symmetrical. This can be seen in Figure \ref{fig:2} as the majority of points in Figure 2 cluster around the line of best-fit. This is important for later measurements and calculations surrounding the shape of Figure 3 and Figure 4, where angle was recorded continuously over time.
+
+\subsection{Q Factor and Period}
+Q factor describes how slowly the oscillating system dampens \cite{lepeshkin}. It represents the viscosity of the pendulum, where factors such as air resistance and friction dampen the oscillatory motion of the pendulum over time \cite{lepeshkin}. Tracker recorded 1982 data points if position over time, each representing an interval of 0.033 seconds. Figure 4 shows the initial start to 35 seconds in, as it allows the reader to notice more discrete features of the model easier. In both Figure 3 and Figure 4, the line of fit accurately follows the actual position of the bob, decreasing as the bob's amplitude decreases.
+\begin{figure} [hbt !]
+    \centering
+    \includegraphics[width=0.70\textwidth]{anglevstime.png}
+    \caption{Recorded Angle ($\theta$) of Pendulum over Time [0-60s]. Using the Tracker software, the continuous position of the pendulum bob was tracked and graphed here. As seen, the angle appears to be dampening as swing time increases. Note that the first 3 seconds of tracking were omitted due to external factors affecting the accuracy. Error bars are included but due to the density of the data, may be hard to see (included on axes titles). The cosine wave used is modelled by x(t) = 0.454 $^{{\frac{-t}{2\tau}}}\cos{(\frac{2\pi}{1.34}t + 19.3)}$.}
+    \label{fig:3}
+\end{figure}
+\begin{figure} [hbt!]
+    \centering
+    \includegraphics[width=0.70\textwidth]{anglevstime2.png}
+    \caption{{Recorded Angle ($\theta$) of Pendulum over Time [0-35s]. A briefer interval of the position of the pendulum bob over time is shown here. This figure allows the reader to see details clearer, such as the error bars on each recorded data point. This time period is at the beginning of the pendulum's swing. After  30 seconds, the maximum amplitude has dampened approximately 0.140 rad.}}
+    \label{fig:4}
+\end{figure}
+\subsection{Analysis of Q Factor and Period}
+{The generated values for the pendulum's trend line in the form of Equation \ref{eq:4} were an initial amplitude of 0.454, $\tau=89.8$ {$\pm{1}$}, T = 1.34 {$\pm{5}$}, and $\phi=19.3$ {$\pm{0.006}$} in Figure \ref{fig:3}. These values make up an approximation of the actual Equation (2) for the line of best-fit shown. For calculations, I will be using the initial T value, with an uncertainty of {$\pm{0.0005}$} (from Tracker \cite{tracker}).}
+
+{Using Equation (6),  Q = 210 {$\pm{3}$}. An alternative method to calculate Q factor is counting the number of oscillations until the amplitude is a factor of its original \cite{xue}. Using this method, 43 oscillations were counted, for a predicted Q value for 215 {$\pm{4}$} (43 oscillations before the 53.3 percent the original amplitude). These two Q values agree with each other, with a percentage error of 2.32 percent between the calculated Q and the counted Q.}
+
+\subsection{Period in Relation to Length}
+The experimental findings of period as a function of length are shown in Figure 5. The recordings were taken at 11 different pendulum lengths, from 0.10m to 0.60m at 0.05m increments ($\pm{0.0005}$). 
+\begin{figure} [hbt!]
+    \centering
+    \label{fig:5}
+    \includegraphics[width=0.70\textwidth]{lengthvsperiod.png}
+    \caption{Recorded Period(s) as Pendulum Length (m) varies [0.10-0.60m]. Data was collected across 11 different lengths from 0.10m to 0.60m in increments of 0.05m. The data is fit with a power trend line $T(L) = 2.0L^{0.45}$. Note that the legend shows uncertainties which were accounted for in the data, however due to relative size do not show up.}
+\end{figure}
+The period is strictly increasing along  different string lengths, and the trend line shows so past 0.60m, indicating period increases with string length. The data points also show that as the string length increases, the slope of a secant between two points decreases, which is evident clearly at lengths 0.60m and 0.55m, where the difference in period was 0.01s ($\pm{0.0005}$), while at 0.10m and 0.15m the difference in period was 0.21s($\pm{0.0005}$). 
+
+\subsection{Analysis of Period and Length}
+Figure 5 shows a nonlinear trend line, where period increases as the string length does, in line with Huygens's law of period. The Python code's line of best-fit estimates a power function of n = 0.45 $\pm{0.02}$, k = 2.0 $\pm{0.03}$.
+\begin{equation} \label{eq:9}
+    T(L) = 2.0L^{0.45}
+\end{equation}
+compared to the predicted model of Equation \ref{eq:7}. The experimental findings show the theoretical model is accurate, as k is exact within uncertainties, however n varies by 0.05 from the predicted, which is greater than the allowed uncertainties. By plotting this data on a log-log plot, the power function obtained is linearized as shown in Figure 6. The linearization does not change the values of the data points but shows an appropriate fit where slope and the intercept are easily determinable as well \cite{ontariotech}. 
+\begin{figure} [hbt!]
+    \centering
+    \label{fig:6}
+    \includegraphics[width=0.70\textwidth]{loglengthvsperiod.png}
+    \caption{Log-Log Plot of Recorded Period(s) as Pendulum Length (m) varies [0.10-0.60m]. Note the data remains unchanged from Figure 5, however the axes are now on logarithmic scales. The slope of the line should have the same value as n, and the intercept should be equal to k. Note that the legend shows uncertainties that were accounted for in the data, however due to relative size do not show up.}
+\end{figure}
+\subsection{Q Factor and Length}
+Equation \ref{eq:6} shows Q factor is related to length as a reciprocal root. However as shown in Figure 7, the calculated Q values don't follow that trend. 
+\begin{figure} [hbt!]
+    \centering
+    \label{fig:6}
+    \includegraphics[width=0.70\textwidth]{qvslength.png}
+    \caption{Calculated Q factor values with Associated Pendulum Lengths. Q factor was calculated using the number of oscillations leading up to a certain percentage of decay of the initial amplitude, according to Equation 5. The data indicates a very loose relationship, if any, with a peak in Q factor from 0.40m to 0.50m, before decreasing. Uncertainties are included.}
+\end{figure}
+The values increase and spike from lengths 0.40m to 0.50m ($\pm{0.005}$), before falling back down. To achieve this form of curve, a higher-order polynomial was used to fit the data. 
+\begin{figure} [hbt!]
+    \centering
+    \label{fig:6}
+    \includegraphics[width=0.6\textwidth]{qvslengthseptic2.png}
+    \caption{Q Factor in Relation to Length. The data points fit to a septic polynomial function provide the closest fit to the points: $y = 3.4891-7.4395x + 6.3979x^2 -2.8782x^3 + 0.7361x^4 -0.1084x^5 + 0.0088x^6 -0.0003x^7$. The shown graph is strictly increasing before reaching an inflection point and rapidly decreasing. Note error bars were included, but are too small to be seen in the points.}
+\end{figure}
+Figure 8 shows a trend line for a relationship between Q factor and pendulum length, being modelled by a septic polynomial function. The trend line and graph were created in MATLAB, in order to test multiple higher-order polynomial functions as trend lines.  
+\subsection{Analysis of Q Factor and Length}
+The form that the recorded values of Q factor take show the predicted relationship is not the same as the derived theoretical one. The uncertainties associated with any trend line are greater than the fit parameters, therefore there is no significant association between Q and L. The uncertainties are discussed further in \textbf{4.3} Aside from this constraint, the collected data points may be explained by air resistance and friction at the pivot point. The gravitational potential energy (=mgh) put into the system originally from the initial angle is converted to kinetic when swinging, and this induces air resistance, as well as friction at the pivot. While the focal point's friction does not change significantly with increased length, air resistance as modelled by 
+\begin{equation}
+    \label{eq:10}
+    A_r = \frac{1}{2}\rho C_d v^2 A
+\end{equation}
+where $\rho$ is the mass density of air, $C_d$ is the coefficient of drag, v is velocity and A is reference area \cite{wikipedia}. From this model, as velocity increases, the air resistance increases. We can further relate velocity to length. At rest, $\theta$ = 0, $\cos{theta} = 1$, so $\cos{1-\theta} = 0$. We can further derive that
+\begin{equation} \label{eq:11}
+    mgh = mgL(1-\cos({\theta})
+\end{equation}
+Therefore as L increases, velocity increases by $v^2$, so air resistance will increase decay. The initial increase can be due to the length of the pendulum maximizing the gravitational potential energy, while friction at the focal point does not change significantly. Eventually, the exponential velocity causes air resistance to increase decay to where Q factor decreases (due to the counting method of Equation \ref{eq:5}).
+\section{Discussion}
+\subsection{Uncertainties with Instruments}
+Although uncertainties were mentioned briefly throughout, this section explains the uncertainties associated with the four experiments. Uncertainty measurements were made by identifying the least accurate measurement tools used, in addition to uncertainty calculation conventions \cite{upenn}. For all analyses done in Tracker, the angle was recorded to the nearest degree and the time elapsed was recorded to the nearest millisecond. Therefore, the uncertainty for these recordings were {$\pm{0.009}$} and {$\pm{0.0005}$} respectively (as seen in Figure 2, 3, 4). However, given the thickness of the original yarn was greater than one degree, the largest uncertainty regarding angle was greater than 1 degree, closer to 2.5 degrees. In order to mitigate this instrumental uncertainty, the yarn was split in half. Additionally, while the notebook on the floor of Figure 1 helped to line up the pendulum swing, it would be impossible to completely eliminate elliptical oscillatory motion in this setup.
+
+\subsection{Uncertainties with Tracker}
+{Tracker did not always track the same location on the bob, typically lagging behind the center of the mass when tracking. This in turn would have the effect of minimally editing the measurements from what they would be at the center of the ball. The uncertainty in this tracking can be estimated to be {$\pm{1.5}$}cm from the center of the ball, based off quantitative reviewing of the Tracker footage. Another, less immense uncertainty is the fixed point of the pendulum on the stand. Although the stand itself is heavy, and is weighed down, little jerk movements could be observed when dropped from higher angles.}
+
+\subsection{Uncertainties associated with Q Factor}
+The Python-generated period's large uncertainty is due to the dampening of the wave, creating a wide variation in the period, at different times. However since period should theoretically be constant regardless of angle, Q factor was calculated using the initial T value (s). When finding Q factor using the number of oscillations in a range from initial to some percentage of amplitude, this forces rounding uncertainties, since it is highly unlikely to find the percentage of amplitude value in your recorded data. In this report, the chosen decay amplitude was 0.248185602 ($e^{-\frac{\pi}{5}}$ of the original), where the closest amplitude in the data was 0.247836754. When counting the number of oscillations, the number of oscillations has to be rounded to the nearest whole number, further increasing uncertainty. Therefore, the calculated Q value using Equation (6) gives a closer value to the actual Q value. When comparing Q factor to length, the uncertainties of the graph exceed any significance they hold. 
+
+\subsection{Uncertainties of Period and Length}
+The determined power function in Equation 9 differs from the predicted Equation 4, by the n value outside of uncertainties. The graph of Equation 9 compared to the theoretical power function has a slower increase, which indicates the period is lower than expected. Experimentally, this can be due to environmental factors such as air resistance, or friction of the pendulum contributing to the difference. Moreover, when measuring the length of the pendulum string, there are associated uncertainties with the measuring tools (outlined in \textbf{4.1} leading to a more uncertain recording of the distance from the top of the pendulum to the center of the mass. Given that the mass is a circular bob, measuring means estimating to a certain extent where the center of mass is. 
+
+\subsection{Future Improvements}
+For future experiments, uncertainties can be reduced. Outlining a more accurate tracking of the bob can be done by using a mark with high contrast to the background (e.g a bright pink dot on the center of the bob), to allow better tracking. Furthermore, a different string material thinner than yarn, can reduce the angle measurement uncertainty.
+
+In addition to reducing uncertainties, the experimental findings for Q factor did not reflect Equation \ref{eq:6}. To achieve a more accurate Q factor apart from counting oscillations, other methods could be used for future experiments. For example from secondary research, the amplitude will be $\frac{1}{e}$ of its original value after $\frac{Q}{\pi}$ oscillations, which could be confirmed by graphing amplitude against the oscillations of the pendulum (out of the scope of this lab) \cite{richmond}.  
+
+Moreover, with only 11 data points the uncertainties for Q factor are greater than the value's significance. This may be due to outside factors, no good fit or relation between Q and L, or other factors. For example, when looking at Q factor related to $\tau$ and L in Equation 6, the units don't work out for Q to be a dimensionless value, indicating there is more than Q being related to solely length. The assumption that $\tau$ is also a constant is one example of an uncontrolled variable, alongside the rest of the variables in Equation 2.
+
+\section{Conclusions}
+This report demonstrates the corroboration of some theoretical models of pendulum behaviour through experimental practice and contradicts others. From the four experiments conducted for this report, the period is independent of angle $\theta$, but dependent on string length (m), under Equation \ref{eq:9}. While the Q factor had few theoretical predictions from past academia, the model of being solely reliant on string length was proven untrue, due to potential outside factors, mainly air resistance and friction at the pivot. The largest uncertainties observed in this lab were in Q factor calculations, namely with counting oscillations to a percentage of decay, and instrumental uncertainties. 
+
+Future experiments in this area should try and minimize the uncertainties described, to perform more accurate recordings and calculations. Additionally, by analyzing Q factor more thoroughly, stronger conclusions can be formed around factors affecting Q factor. \\\
+
+Word count: 3067
+%Sets the bibliography style to UNSRT and imports the 
+%bibliography file "sample.bib".
+\bibliographystyle{ieeetr}
+\bibliography{cite}
+
+\end{document}
